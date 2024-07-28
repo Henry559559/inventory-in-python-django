@@ -37,10 +37,10 @@ urlpatterns = [
     path('delivery/<int:pk>/delete/', DeliveryDeleteView.as_view(), name='delivery-delete'),
     
     path('categories/', CategoryListView.as_view(), name='categories-list'),
-     path('delivery/<slug:slug>/', CategoryDetailView.as_view(), name='delivery-detail'),
-    path('new-delivery/', CategoryCreateView.as_view(), name='delivery-create'),
-    path('delivery/<int:pk>/update/', CategoryUpdateView.as_view(), name='delivery-update'),
-    path('delivery/<int:pk>/delete/', CategoryDeleteView.as_view(), name='delivery-delete'),
+     path('category/<slug:slug>/', CategoryDetailView.as_view(), name='category-detail'),
+    path('new-category/', CategoryCreateView.as_view(), name='category-create'),
+    path('category/<int:pk>/update/', CategoryUpdateView.as_view(), name='category-update'),
+    path('category/<int:pk>/delete/', CategoryDeleteView.as_view(), name='category-delete'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

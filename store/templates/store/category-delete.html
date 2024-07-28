@@ -1,0 +1,16 @@
+{% extends "store/base.html" %} {% block title %}Confirmar eliminacion{% endblock %}
+{% block content %}
+<div class="container pt-5">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Eliminar Esta Categoria</legend>
+            <h5>¿Estás seguro de que deseas eliminar La Categoria? "{{ object.name }}"</h5>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-danger btn-sm" type="submit">Si, Eliminara</button>
+            <a class="btn btn-outline-success btn-sm" href="{% url 'categories-list' %}">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock content %}
