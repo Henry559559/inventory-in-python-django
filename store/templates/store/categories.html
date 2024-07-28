@@ -1,0 +1,81 @@
+{% extends "store/base.html" %}
+{% load render_table from django_tables2 %}
+{% load querystring from django_tables2 %}
+{% load static %}
+{% block title %}Categoria{% endblock title %}
+{% block content %}
+<div class="col container p-5">
+    <style>
+        input[type="text"], select {
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+            padding: 6px 20px;
+            margin: 8px 0;
+        }
+        button[type="submit"] {
+            padding: 6px 20px;
+            margin: 8px 0;
+        }
+    </style>
+    <div>
+        <!-- <a class="btn btn-sm btn-success" href="{% url 'delivery-create' %}">Añadir Categoria</a> -->
+        <a class="float-end btn btn-sm btn-success" href="{% querystring '_export'='xlsx' %}">
+            <i class="fa-solid fa-download"></i>
+            Export to Excel
+        </a>
+    </div>
+    <div class="m-2">
+        <table class="table table-sm table-responsive">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col"><a href="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}">ID <i class="fa-solid fa-sort"></i></a></th>
+                    <th scope="col">Nombre <i class="fa-solid fa-sort"></i></th>
+                    <th scope="col">Acciones <i class="fa-solid fa-sort"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <th scope="row"><a> {{ category.id }}</a></th>
+                    <td>{{ category.name }}</td>
+                    <td>
+                        <!-- Solo muestra enlaces si hay un ID de entrega válido -->
+                        {% if category.delivery and category.delivery.pk %}
+                            <a class="text-info" href="{% url 'delivery-update' pk=category.delivery.pk %}"><i class="fa-solid fa-pen"></i></a>
+                            <a class="text-danger float-end" href="{% url 'delivery-delete' pk=category.delivery.pk %}"><i class="fa-solid fa-trash"></i></a>
+                        {% else %}
+                            No delivery available
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="paginator">
+        {% if is_paginated %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li><a class="btn btn-sm accent-1 btn-outline-success" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span class="btn btn-sm btn-outline-success">&laquo;</span></li>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <li class="active"><span class="btn btn-sm btn-success">{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}" class="btn btn-sm btn-outline-success">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}" class="btn btn-sm btn-outline-success">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span class="btn btn-sm btn-outline-success">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
