@@ -49,8 +49,8 @@ class Profile(models.Model):
         ordering = ["slug"]
 
 class Vendor(models.Model):
-    name = models.CharField(max_length=50)
     slug = AutoSlugField(unique=True , populate_from='name')
+    name = models.CharField(max_length=50)
     phone_number = models.IntegerField(blank=True, null=True)
     address = models.CharField(max_length=50, blank=True, null=True)
 

@@ -20,8 +20,8 @@ class Category(models.Model):
     """
     Represents a category for items.
     """
-    name = models.CharField(max_length=50)
     slug = AutoSlugField(unique=True , populate_from='name')
+    name = models.CharField(max_length=50)
 
     def __str__(self):
         """

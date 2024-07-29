@@ -19,6 +19,11 @@ from .views import (
     CategoryCreateView,
     CategoryUpdateView,
     CategoryDeleteView,
+    VendorListView,
+    VendorDetailView,
+    VendorCreateView,
+    VendorUpdateView,
+    VendorDeleteView
 )
 
 urlpatterns = [
@@ -37,10 +42,16 @@ urlpatterns = [
     path('delivery/<int:pk>/delete/', DeliveryDeleteView.as_view(), name='delivery-delete'),
     
     path('categories/', CategoryListView.as_view(), name='categories-list'),
-     path('category/<slug:slug>/', CategoryDetailView.as_view(), name='category-detail'),
+    path('category/<slug:slug>/', CategoryDetailView.as_view(), name='category-detail'),
     path('new-category/', CategoryCreateView.as_view(), name='category-create'),
     path('category/<int:pk>/update/', CategoryUpdateView.as_view(), name='category-update'),
     path('category/<int:pk>/delete/', CategoryDeleteView.as_view(), name='category-delete'),
+
+    path('vendors/', VendorListView.as_view(), name='vendor-list'),
+    path('vendor/<slug:slug>/', VendorDetailView.as_view(), name='vendor-detail'),
+    path('new-vendor/', VendorCreateView.as_view(), name='vendor-create'),
+    path('vendor/<int:pk>/update/', VendorUpdateView.as_view(), name='vendor-update'),
+    path('vendor/<int:pk>/delete/', VendorDeleteView.as_view(), name='vendor-delete'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

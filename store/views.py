@@ -30,7 +30,7 @@ from accounts.models import Profile, Vendor
 from transactions.models import Sale
 from .models import Category, Item, Delivery
 from .forms import ProductForm
-from .tables import ItemTable
+from .tables import ItemTable, CategoryTable, VendorTable
 
 @login_required
 def dashboard(request):
@@ -308,6 +308,7 @@ class CategoryListView(LoginRequiredMixin, ExportMixin, tables.SingleTableView):
     """
     model = Category
     pagination = 10
+    table_class= CategoryTable
     template_name = 'store/categories.html'
     context_object_name = 'categories'
 
@@ -382,6 +383,103 @@ class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     - success_url: The URL to redirect to upon successful deletion.
     """
     model = Category
+    template_name = 'store/category-delete.html'
+    success_url = '/categories'
+
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
+        else:
+            return False
+        
+
+class VendorListView(LoginRequiredMixin, ExportMixin, tables.SingleTableView):
+    """
+    View class to display a list of vendor.
+
+    Attributes:
+    - model: The model associated with the view.
+    - pagination: Number of items per page for pagination.
+    - template_name: The HTML template used for rendering the view.
+    - context_object_name: The variable name for the context object.
+    """
+    model = Vendor
+    pagination = 10
+    table_class= VendorTable
+    template_name = 'store/vendor-list.html'
+    context_object_name = 'vendors'
+
+class VendorSearchListView(VendorListView):
+    """
+    View class to search and display a filtered list of vendor.
+
+    Attributes:
+    - paginate_by: Number of items per page for pagination.
+    """
+    paginate_by = 10
+
+    def get_queryset(self):
+        result = super(VendorSearchListView, self).get_queryset()
+
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            result = result.filter(
+                reduce(operator.and_,
+                       (Q(customer_name__icontains=q) for q in query_list))
+            )
+        return result
+
+class VendorDetailView(LoginRequiredMixin, DetailView):
+    """
+    View class to display detailed information about a vendor.
+
+    Attributes:
+    - model: The model associated with the view.
+    - template_name: The HTML template used for rendering the view.
+    """
+    model = Vendor
+    template_name = 'store/category-detail.html'
+class VendorCreateView(LoginRequiredMixin, CreateView):
+    """
+    View class to create a new vendor.
+
+    Attributes:
+    - model: The model associated with the view.
+    - fields: The fields to be included in the form.
+    - template_name: The HTML template used for rendering the view.
+    - success_url: The URL to redirect to upon successful form submission.
+    """
+    model = Vendor
+    fields = ['name']
+    template_name = 'store/category-create.html'
+    success_url = '/categories'
+
+class VendorUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    View class to update vendor information.
+
+    Attributes:
+    - model: The model associated with the view.
+    - fields: The fields to be updated.
+    - template_name: The HTML template used for rendering the view.
+    - success_url: The URL to redirect to upon successful form submission.
+    """
+    model = Vendor
+    fields = ['name']
+    template_name = 'store/category-update.html'
+    success_url = '/categories'
+
+class VendorDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """
+    View class to delete a vendor.
+
+    Attributes:
+    - model: The model associated with the view.
+    - template_name: The HTML template used for rendering the view.
+    - success_url: The URL to redirect to upon successful deletion.
+    """
+    model = Vendor
     template_name = 'store/category-delete.html'
     success_url = '/categories'
 
