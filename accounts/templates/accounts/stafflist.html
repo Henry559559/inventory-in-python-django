@@ -4,76 +4,132 @@
 {% load querystring from django_tables2 %}{% block content %}
     <div class="container">
         <div class="col container p-5">
-            <div>
+            <style>
+                .header-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    max-width: 1200px;
+                    margin-bottom: 20px;
+                }
+        
+                .header-container .btn {
+                    flex: 1;
+                }
+        
+                .header-container .title {
+                    flex: 2;
+                    text-align: center;
+                    margin: 0;
+                    color: #333;
+                }
+        
+                .table-container {
+                    width: 100%;
+                    max-width: 1200px;
+                }
+        
+                .table-responsive {
+                    width: 100%;
+                    overflow-x: auto;
+                }
+        
+                .table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+        
+                .button-group {
+                    display: flex;
+                    gap: 5px;
+                    justify-content: center;
+                }
+        
+                .button-group a {
+                    text-decoration: none;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                }
+            </style>
+            <div class="header-container">
               <a class="btn btn-sm btn-success" href="{% url 'invoice-create' %}">Add Staff</a>
+              <h2 class="title">Usuario</h2>
               <a class="float-end btn btn-sm btn-success" href="{% querystring '_export'='xlsx' %}">
                 <i class="fa-solid fa-download"></i>
                 Export to Excel
               </a>
             </div>
-        <table class="table table-sm table-responsive">
-            <thead>
-                <tr class="table-success">
-                    <th scope="col">Id<i class="fa-solid fa-sort"></i></th>
-                    <th scope="col">Profile Image</th>
-                    <th scope="col">username<i class="fa-solid fa-sort"></i></th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">Status<i class="fa-solid fa-sort"></i></th>
-                    <th scope="col">Role<i class="fa-solid fa-sort"></i></th>
-                    {% if user.profile.role == 'AD' or user.profile.role == 'EX' %}
-                    <th scope="col">Action</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for profile in profiles %}
-                <tr>
-                    <th scope="row">
-                        {{profile.id}}
-                    </th>
-                    <td>
-                        <img alt="..." src="{{profile.profile_picture.url}}" class="avatar avatar-sm rounded-circle me-2">
-                    </td>
-                    <td>
-                        {{profile.user.username}}
-                    </td>
-                    <td>
-                    {{profile.telephone}}
-                    </td>
-                    <td>
-                        {% if profile.status == 'A' %}
-                            <span class="badge badge-pill bg-soft-success text-success me-2">
-                                Active
-                            </span>
-                            {% elif profile.status == 'OL' %}
-                            <span class="badge badge-pill bg-soft-warning text-warning me-2">
-                                On_leave
-                            </span>
-                            {% else %}
-                            <span class="badge badge-pill bg-soft-danger text-danger me-2">
-                            Inactive
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if profile.role == 'AD' %}
-                            Admin
-                        {% elif profile.role == 'EX' %}
-                            Executive
-                        {% else %}
-                            Operative
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if user.profile.role == 'AD' or user.profile.role == 'EX' %}
-                            <a class="text-info" href="{% url 'profile-update' profile.id %}"><i class="fa-solid fa-pen"></i></a>
-                        {% endif %}
-                        {% if user.profile.role == 'AD' %}
-                            <a class="text-danger float-end" href="{% url 'profile-delete' profile.id %}"><i class="fa-solid fa-trash"></i></a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+     <div class="table-container" >
+        <div class="mt-6 m-4" >
+                <table class="table table-sm table-responsive border border-secondary">
+                    <thead class="thead-dark">
+                        <tr class="table-success">
+                            <th scope="col"  style="color: #fcfcfd;">Id</th>
+                            <th scope="col"  style="color: #fcfcfd;">Imagen de perfil</th>
+                            <th scope="col"  style="color: #fcfcfd;">nombre de usuario</th>
+                            <th scope="col"  style="color: #fcfcfd;">Número de teléfono</th>
+                            <th scope="col"  style="color: #fcfcfd;">Estado</th>
+                            <th scope="col"  style="color: #fcfcfd;">Rol</th>
+                            {% if user.profile.role == 'AD' or user.profile.role == 'EX' %}
+                            <th scope="col"></th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for profile in profiles %}
+                        <tr>
+                            <th scope="row">
+                                {{profile.id}}
+                            </th>
+                            <td>
+                                <img alt="..." src="{{profile.profile_picture.url}}" class="avatar avatar-sm rounded-circle me-2">
+                            </td>
+                            <td>
+                                {{profile.user.username}}
+                            </td>
+                            <td>
+                            {{profile.telephone}}
+                            </td>
+                            <td>
+                                {% if profile.status == 'A' %}
+                                    <span class="badge badge-pill bg-soft-success text-success me-2">
+                                        Activo
+                                    </span>
+                                    {% elif profile.status == 'OL' %}
+                                    <span class="badge badge-pill bg-soft-warning text-warning me-2">
+                                        Inactivo
+                                    </span>
+                                    {% else %}
+                                    <span class="badge badge-pill bg-soft-danger text-danger me-2">
+                                    Inactive
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if profile.role == 'AD' %}
+                                    Admin
+                                {% elif profile.role == 'EX' %}
+                                    Executive
+                                {% else %}
+                                    Operative
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="button-group">
+                                    {% if user.profile.role == 'AD' or user.profile.role == 'EX' %}
+                                        <a class="text-info" href="{% url 'profile-update' profile.id %}"><i class="fa-solid fa-pen"></i></a>
+                                    {% endif %}
+                                    {% if user.profile.role == 'AD' %}
+                                        <a class="text-danger float-end" href="{% url 'profile-delete' profile.id %}"><i class="fa-solid fa-trash"></i></a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+        </div>
     </div>
+</div>
 {% endblock %}

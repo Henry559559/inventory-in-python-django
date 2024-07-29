@@ -1,81 +1,122 @@
 {% extends "store/base.html" %}{% load static %}{% load render_table from django_tables2 %}{% load querystring from django_tables2 %}{% block title %}Sales{%endblock title%}{% block content %}
     <div class="col container p-5">
       <style>
-        input[type="text"],select{
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            display: inline-block;
-            padding: 6px 20px;
-            margin: 8px 0;
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 20px;
         }
-        button[type="submit"]{
-          padding: 4px 20px;
-          margin: 8px 0;
-      }
+
+        .header-container .btn {
+            flex: 1;
+        }
+
+        .header-container .title {
+            flex: 2;
+            text-align: center;
+            margin: 0;
+            color: #333;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .button-group a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
       </style>
-      <div>
-        <a class="btn btn-sm btn-success" href="{% url 'sale-create' %}">Add Sale Order</a>
+      <div class="header-container">
+        <a class="btn btn-sm btn-success" href="{% url 'sale-create' %}">Agregar Orden De Venta</a>
+        <h2 class="title">Orden De Venta</h2>
         <a class="float-end btn btn-sm btn-success" href="{% querystring '_export'='xlsx' %}">
           <i class="fa-solid fa-download"></i>
           Export to Excel
         </a>
-        <table class="table table-sm table-responsive overflow-x-hidden" id="dtVerticalScrollExample" cellspacing="0"
-        width="100%">
-            <thead>
-              <tr class="table-success">
-                <th scope="col" class="th-sm">ID <i class="fa-solid fa-sort"></i></th>
-                <th scope="col" class="th-sm">Item <i class="fa-solid fa-sort"></i></th>
-                <th scope="col" class="th-sm">Quantity <i class="fa-solid fa-sort"></i></th>
-                <th scope="col" class="th-sm">Price per item <i class="fa-solid fa-sort"></i></th>
-                <th scope="col" class="th-sm">Total price <i class="fa-solid fa-sort"></i></th>
-                <th scope="col" class="th-sm">Payment Method <i class="fa-solid fa-sort"></i></th>
-                <th scope="col" class="th-sm">Customer Name <i class="fa-solid fa-sort"></i></th>
-                <th scope="col" class="th-sm">Date <i class="fa-solid fa-sort"></i></th>
-                <th scope="col" class="th-sm">Served by <i class="fa-solid fa-sort"></i></th>
-                <th scope="col" class="th-sm"> Action</th>
-              </tr>
-            </thead>
-            <tbody>
-            {% for sale in sales %}
-              <tr>
-                <th scope="row">{{sale.id}}</th>
+      </div>
+        <div class="table-container" >
+          <div class="mt-6 m-4" >
+            <table class="table-sm table-responsive border border-secondary" id="dtVerticalScrollExample">
+                <thead class="thead-dark">
+                  <tr class="table-success">
+                    <th scope="col" class="th-sm">ID</th>
+                    <th scope="col" class="th-sm">Producto</th>
+                    <th scope="col" class="th-sm">Cantidad</th>
+                    <th scope="col" class="th-sm">Precio por artículo</th>
+                    <th scope="col" class="th-sm">Precio total</th>
+                    <th scope="col" class="th-sm">Forma de pago</th>
+                    <th scope="col" class="th-sm">Nombre Del Cliente</th>
+                    <th scope="col" class="th-sm">Fecha</th>
+                    <th scope="col" class="th-sm">Servida Por</th>
+                    <th scope="col" class="th-sm"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for sale in sales %}
+                  <tr>
+                    <th scope="row">{{sale.id}}</th>
 
-                <td><a href="{% url 'sale-detail' sale.pk %}">{{sale.item.name}}</a></td>
+                    <td><a href="{% url 'sale-detail' sale.pk %}">{{sale.item.name}}</a></td>
 
-                <td>{{sale.quantity}}</td>
-                <td>{{sale.price}}</td>
-                <td>{{sale.total_value}}</td>
-                <td>
-                  {% if sale.payment_method == 'MP' %}
-                    <span class="badge badge-pill bg-soft-success text-success me-2">
-                      MPESA
-                    </span>
-                  {% elif sale.payment_method == 'CS' %}
-                    <span class="badge badge-pill bg-soft-primary text-primary me-2">
-                      CASH
-                    </span>
-                  {% elif sale.payment_method == 'VM' %}
-                    <span class="badge badge-pill bg-soft-warning text-warning me-2">
-                      VOOMA
-                    </span>
-                  {% else %}
-                    <span class="badge badge-pill bg-soft-info text-info me-2">
-                      BANK
-                    </span>
-                  {% endif %}
-                </td>
-                <td>{{sale.customer_name}}</td>
-                <td>{{sale.transaction_date|date:"Y/m/d - H:m:s"}}</td>
-                <td>{{sale.profile.user.username}}</td>
-                <td>
-                  <a class="text-info" href="{% url 'sale-update' sale.slug %}"><i class="fa-solid fa-pen"></i></a>
-                  <a class="text-danger float-end" href="{% url 'sale-delete' sale.slug %}"><i class="fa-solid fa-trash"></i></a>
-                </td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
+                    <td>{{sale.quantity}}</td>
+                    <td>{{sale.price}}</td>
+                    <td>{{sale.total_value}}</td>
+                    <td>
+                      {% if sale.payment_method == 'VISA' %}
+                        <span class="badge badge-pill bg-soft-success text-success me-2">
+                          VISA
+                        </span>
+                      {% elif sale.payment_method == 'CS' %}
+                        <span class="badge badge-pill bg-soft-primary text-primary me-2">
+                          EFECTIVO
+                        </span>
+                      {% elif sale.payment_method == 'PS' %}
+                        <span class="badge badge-pill bg-soft-warning text-warning me-2">
+                          PSE
+                        </span>
+                      {% else %}
+                        <span class="badge badge-pill bg-soft-info text-info me-2">
+                          BANCO
+                        </span>
+                      {% endif %}
+                    </td>
+                    <td>{{sale.customer_name}}</td>
+                    <td>{{sale.transaction_date|date:"Y/m/d - H:m:s"}}</td>
+                    <td>{{sale.profile.user.username}}</td>
+                    <td>
+                      <div class="button-group">
+                        <a class="text-info" href="{% url 'sale-update' sale.slug %}"><i class="fa-solid fa-pen"></i></a>
+                        <a class="text-danger float-end" href="{% url 'sale-delete' sale.slug %}"><i class="fa-solid fa-trash"></i></a>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+          </div>
+        </div>
           <div class="paginator">
             {% if is_paginated %}
             <ul class="pagination ">

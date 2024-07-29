@@ -8,14 +8,14 @@ class Invoice(models.Model):
         auto_now=True,
         blank=False,
         null=False,
-        verbose_name=('Date (eg: 2022/11/22 )')
+        verbose_name=('Date (eg: 2024/11/22 )')
     )
-    customer_name = models.CharField(max_length=30, blank=False, null=False)
-    contact_number = models.CharField(max_length=13, blank=False, null=False)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    price_per_item = models.FloatField(verbose_name=('Price Per Item (Ksh)'))
-    quantity = models.FloatField(default=0.00)
-    shipping = models.FloatField(verbose_name=('Shipping and handling'))
+    customer_name = models.CharField(max_length=30, blank=False, null=False, verbose_name=('Nombre del cliente'))
+    contact_number = models.CharField(max_length=13, blank=False, null=False, verbose_name=('Número de contacto'))
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name=('Producto'))
+    price_per_item = models.FloatField(verbose_name=('Precio por artículo (Ps)'))
+    quantity = models.FloatField(default=0.00, verbose_name=('Cantidad'))
+    shipping = models.FloatField(verbose_name=('Envío y manipulación'))
     total = models.FloatField(verbose_name=('Total Amount (Ksh)'))
     grand_total = models.FloatField(verbose_name=('Grand total (Ksh)'))
 

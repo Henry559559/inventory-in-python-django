@@ -22,7 +22,7 @@ ROLE_CHOICES = [
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,verbose_name=('Usuario'))
     slug = AutoSlugField(unique=True, verbose_name=('Account ID'), populate_from='email')
     profile_picture = ProcessedImageField(default='profile_pics/default.jpg', upload_to='profile_pics', format='JPEG',
                                 processors = [ResizeToFill(150,150)],
@@ -31,8 +31,8 @@ class Profile(models.Model):
     email = models.CharField(max_length=150, blank=True, null=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=12, blank=False, null=False, default='INA')
-    role = models.CharField(choices=ROLE_CHOICES, max_length=12, blank=True, null=True)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=12, blank=False, null=False, default='INA', verbose_name=('Estado'))
+    role = models.CharField(choices=ROLE_CHOICES, max_length=12, blank=True, null=True, verbose_name=('Rol'))
 
     @property
     def imageURL(self):

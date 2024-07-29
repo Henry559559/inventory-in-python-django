@@ -314,13 +314,13 @@
 <section class="receipt container-ticket">
 	<div class="ticket">
 		<div class="head-ticket">
-			<p class="x-bold">InventoryMS</p>
+			<p class="x-bold">Inventory</p>
 			<p class="bold">Tom Mboya Street, Tudor</p>
 			<p class="bold">Tel: 0746341598</p>
 			<br>
-			<p class="bold">P.O BOX. 90420-80100 MSA</p>
-			<p>Date :{{sale.transaction_date|date:"Y/m/d    H:m:s"}}</p>
-			<p>Receipt code : IMS{{sale.id}}{{sale.slug|upper}}</p>
+			<p class="bold">APARTADO DE CORREOS 90420-80100</p>
+			<p>Fecha :{{sale.transaction_date|date:"Y/m/d    H:m:s"}}</p>
+			<p>Codigo Recivido : IMS{{sale.id}}{{sale.slug|upper}}</p>
 			<div class="code-barre">
 				<span></span>
 				<span></span>
@@ -378,11 +378,11 @@
 			<div class="produits">
 				<div class="col2">
 					<p>{{sale.item.name|upper}}</p>
-					<p class="prix"><b>Ksh {{sale.price}}</b></p>
+					<p class="prix"><b>Ps {{sale.price}}</b></p>
 				</div>
 				<div class="hr-sm"></div>
 				<div class="col2">
-					<p>Quantity</p>
+					<p>Cantidad</p>
 					<p class="prix"><b>{{sale.quantity}}</b></p>
 				</div>
 				<div class="col2">
@@ -391,28 +391,28 @@
 				</div>
 				<br>
 				<div class="col2">
-					<p>Payment Method</p>
+					<p>Forma De Pago</p>
 					<p class="prix"><b>{{sale.payment_method}}<b></p>
 				</div>
 				<div class="col2">
-					<p>Amount recived</p>
-					<p class="prix"><b>Ksh {{sale.amount_received}}</b></p>
+					<p>Importe Recibido</p>
+					<p class="prix"><b>Pesos {{sale.amount_received}}</b></p>
 				</div>
 				<div class="col2">
-					<p>Balance</p>
+					<p>Equilibrar</p>
 					<p class="prix"><b>{{sale.balance}}</b></p>
 				</div>
 			</div>
 			<div class="hr-lg"></div>
 			<div class="carte">
-				<p class="title-carte">Customer: {{sale.customer_name}}</p>
+				<p class="title-carte">Cliente: {{sale.customer_name}}</p>
 				<br>
-				<p>Served by: {{sale.profile}}</p>
+				<p>Atendido Por: {{sale.profile}}</p>
 			</div>
 			<div class="hr-lg"></div>
 		</div>
 		<div class="footer-ticket">
-			<p class="title-footer">THANK YOU</p>
+			<p class="title-footer">Gracias</p>
 		</div>
 	</div>
 </section>
