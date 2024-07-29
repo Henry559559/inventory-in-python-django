@@ -51,11 +51,11 @@
     }
     .form .message {
       margin: 15px 0 0;
-      color: #b3b3b3;
+      color: #0d4083;
       font-size: 12px;
     }
     .form .message a {
-      color: #4CAF50;
+      color: #0d4083;
       text-decoration: none;
     }
     .form .register-form {
@@ -95,16 +95,16 @@
       color: #EF3B3A;
     }
     body {
-      background: #76b852; /* fallback for old browsers */
-      background: rgb(141,194,111);
-      background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
+      background: #ffffff; /* fallback for old browsers */
+      background: rgb(255, 255, 255);
+      background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 50%);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
     </style>
     <div class="form">
       <div>
-        <strong class="navbar-brand" style="font-size: 26px;">Inventory<span class="text-warning">ms</span></strong>
+        <strong class="navbar-brand" style="font-size: 26px;">Inventory<span class="text-warning"></span></strong>
       </div>
       <div class="text-danger">
         {% if messages %} {% for message in messages %}

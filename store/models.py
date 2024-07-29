@@ -64,12 +64,12 @@ class Delivery(models.Model):
     """
     Represents a delivery of an item to a customer.
     """
-    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
-    customer_name = models.CharField(blank=True, null=True, max_length=30)
-    phone_number = PhoneNumberField(null=True, blank=True)
-    location = models.CharField(blank=True, null=True, max_length=20)
-    date = models.DateTimeField(null=False, blank=False)
-    is_delivered = models.BooleanField(default=False, verbose_name='is-delivered')
+    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Producto')
+    customer_name = models.CharField(blank=True, null=True, max_length=30, verbose_name='Nombre Del Cliente')
+    phone_number = PhoneNumberField(null=True, blank=True, verbose_name='Numero De Telefono')
+    location = models.CharField(blank=True, null=True, max_length=20, verbose_name='Ciudad O Pais De Entrega')
+    date = models.DateTimeField(null=False, blank=False, verbose_name='Fecha De Entrega')
+    is_delivered = models.BooleanField(default=False, verbose_name='Entregado')
 
     def __str__(self):
         """

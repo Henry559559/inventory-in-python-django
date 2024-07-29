@@ -439,7 +439,7 @@ class VendorDetailView(LoginRequiredMixin, DetailView):
     - template_name: The HTML template used for rendering the view.
     """
     model = Vendor
-    template_name = 'store/category-detail.html'
+    template_name = 'store/vendors-detail.html'
 class VendorCreateView(LoginRequiredMixin, CreateView):
     """
     View class to create a new vendor.
@@ -451,9 +451,9 @@ class VendorCreateView(LoginRequiredMixin, CreateView):
     - success_url: The URL to redirect to upon successful form submission.
     """
     model = Vendor
-    fields = ['name']
-    template_name = 'store/category-create.html'
-    success_url = '/categories'
+    fields = ['name','phone_number', 'address']
+    template_name = 'store/vendors-create.html'
+    success_url = '/vendors'
 
 class VendorUpdateView(LoginRequiredMixin, UpdateView):
     """
@@ -466,9 +466,9 @@ class VendorUpdateView(LoginRequiredMixin, UpdateView):
     - success_url: The URL to redirect to upon successful form submission.
     """
     model = Vendor
-    fields = ['name']
-    template_name = 'store/category-update.html'
-    success_url = '/categories'
+    fields = ['name','phone_number', 'address']
+    template_name = 'store/vendors-update.html'
+    success_url = '/vendors'
 
 class VendorDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """
@@ -480,8 +480,8 @@ class VendorDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     - success_url: The URL to redirect to upon successful deletion.
     """
     model = Vendor
-    template_name = 'store/category-delete.html'
-    success_url = '/categories'
+    template_name = 'store/vendors-delete.html'
+    success_url = '/vendors'
 
     def test_func(self):
         if self.request.user.is_superuser:

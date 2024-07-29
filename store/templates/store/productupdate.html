@@ -14,23 +14,24 @@
                             <h1 class="text-success">Update product</h1>
                             <hr>
                         </header>
-                        <label>Product name</label>
+                        <label>Nombre Del Producto</label>
                         {{form.name}}
-                        <label> Category </label>
+                        <label>Categoria</label>
                         {{form.category}}
-                        <label> Quantity </label>
+                        <label>Cantidad Del Productos</label>
                         {{form.quantity}}
-                        <label> Selling Price</label>
+                        <label>Precio De Venta</label>
                         {{form.selling_price}}
-                        <label> Expiring date</label>
+                        <label>Fecha De Caducidad</label>
                         <div class="input-group" id="datetimepicker1" data-target-input="nearest">
                           {{form.expiring_date}}
-                          <label>Vendor</label>
+                          <label>Proveedor</label>
                           {{form.vendor}}
                     </fieldset>
                 </section>
                 <div class="form-group mt-4 text-center">
-                    <button class="btn btn-success" type="submit">Submit</button>
+                    <button class="btn btn-success" type="submit">Actualizar</button>
+                    <a class="btn btn-danger" href="{% url 'productslist' %}">Cancelar</a>
                 </div>
             </form>
         </div>

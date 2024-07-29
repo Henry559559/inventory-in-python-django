@@ -1,71 +1,112 @@
 {% extends "store/base.html" %}{% load render_table from django_tables2 %}{% load querystring from django_tables2 %}{% load static %}{% block title %}Deliveries{%endblock title%}{% block content %}
     <div class="col container p-5">
       <style>
-        input[type="text"],select{
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            display: inline-block;
-            padding: 6px 20px;
-            margin: 8px 0;
+         .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 20px;
         }
-        button[type="submit"]{
-          padding: 6px 20px;
-          margin: 8px 0;
-      }
+
+        .header-container .btn {
+            flex: 1;
+        }
+
+        .header-container .title {
+            flex: 2;
+            text-align: center;
+            margin: 0;
+            color: #333;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .button-group a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
       </style>
       {% comment %} <form method="GET" class="container">
         {{filter.form}}
         <button type="submit" class="btn btn-sm btn-success fa fa-search"> Buscar</button>
       </form> {% endcomment %}
-      <div>
+      <div class="header-container">
         <a class="btn btn-sm btn-success" href="{% url 'delivery-create' %}">Añadir Entrega</a>
+        <h2 class="title">Entrega De Productos</h2>
         <a class="float-end btn btn-sm btn-success" href="{% querystring '_export'='xlsx' %}">
           <i class="fa-solid fa-download"></i>
           Export to Excel
         </a>
       </div>
-      <div class="m-2">
-        <table class= "table table-sm table-responsive">
-            <thead>
-              <tr class="table-success">
-                <th scope="col"><a href="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}">ID <i class="fa-solid fa-sort"></i></a></th>
-                <th scope="col">Nombre <i class="fa-solid fa-sort"></i></th>
-                <th scope="col">Nombre del cliente <i class="fa-solid fa-sort"></i></th>
-                <th scope="col">Contacto <i class="fa-solid fa-sort"></i></th>
-                <th scope="col">Direecion <i class="fa-solid fa-sort"></i></th>
-                <th scope="col">Fecha de entrega <i class="fa-solid fa-sort"></i></th>
-                <th scope="col">Estado de entrega <i class="fa-solid fa-sort"></i></th>
-                <th scope="col">    <i class="fa-solid fa-sort"></i></th>
-              </tr>
-            </thead>
-            <tbody>
-            {% for delivery in deliveries %}
-              <tr>
-                <th scope="row"><a> {{delivery.id}}</a></th>
-                <td>{{delivery.item.name}}</td>
-                <td>{{delivery.customer_name}}</td>
-                <td>{{delivery.phone_number}}</td>
-                <td>{{delivery.location}}</td>
-                <th scope="col">{{delivery.date}}</th>
-                <th scope="col">
-                    {% if delivery.is_delivered == True %}
-                        <span class="badge badge-pill bg-soft-warning text-success me-2">
-                            Delivered
-                        </span></th>
-                    {% else %}
-                        <span class="badge badge-pill bg-soft-warning text-danger me-2">
-                            Pending
-                        </span></th>
+      <div class="table-container">
+        <div class="mt-6 m-4" >
+          <table class= "table table-sm table-responsive border border-secondary">
+              <thead class="thead-dark">
+                <tr class="table-success">
+                  <th scope="col"><a href="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}"  style="color: #fcfcfd;">ID</a></th>
+                  <th scope="col" style="color: #fcfcfd;" >Nombre</th>
+                  <th scope="col" style="color: #fcfcfd;">Nombre del cliente</th>
+                  <th scope="col" style="color: #fcfcfd;">Contacto</th>
+                  <th scope="col" style="color: #fcfcfd;">Direecion</th>
+                  <th scope="col" style="color: #fcfcfd;">Fecha de entrega</th>
+                  <th scope="col" style="color: #fcfcfd;">Estado de entrega</th>
+                  <th scope="col">    <i></i></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for delivery in deliveries %}
+                <tr>
+                  <th scope="row"><a> {{delivery.id}}</a></th>
+                  <td>{{delivery.item.name}}</td>
+                  <td>{{delivery.customer_name}}</td>
+                  <td>{{delivery.phone_number}}</td>
+                  <td>{{delivery.location}}</td>
+                  <th scope="col">{{delivery.date}}</th>
+                  <th scope="col">
+                      {% if delivery.is_delivered == True %}
+                          <span class="badge badge-pill bg-soft-warning text-success me-2">
+                              Entregado
+                          </span></th>
+                      {% else %}
+                          <span class="badge badge-pill bg-soft-warning text-danger me-2">
+                              Pendiente De Entrega
+                          </span></th>
+                      {% endif %}
+                  <td>
+                    {% if delivery.is_delivered == False %}
+                        <div class="button-group">
+                          <a class="text-info" href="{% url 'delivery-update' delivery.pk %}"><i class="fa-solid fa-pen"></i></a>
+                          <a class="text-danger float-end" href="{% url 'delivery-delete' delivery.pk %}"><i class="fa-solid fa-trash"></i></a>
+                        </div>
                     {% endif %}
-                <td>
-                  <a class="text-info" href="{% url 'delivery-update' delivery.pk %}"><i class="fa-solid fa-pen"></i></a>
-                  <a class="text-danger float-end" href="{% url 'delivery-delete' delivery.pk %}"><i class="fa-solid fa-trash"></i></a>
-                </td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
           <div class="paginator">
             {% if is_paginated %}

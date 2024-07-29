@@ -6,56 +6,88 @@
 {% block content %}
 <div class="col container p-5">
     <style>
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 20px;
+        }
+
+        .header-container .btn {
+            flex: 1;
+        }
+
+        .header-container .title {
+            flex: 2;
+            text-align: center;
+            margin: 0;
+            color: #333;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
         .button-group {
             display: flex;
-            gap: 25px; /* Espacio entre los botones */
-            justify-content: center; /* Alinea los botones a la derecha */
+            gap: 5px;
+            justify-content: center;
         }
-        input[type="text"], select {
-            box-sizing: border-box;
-            border: 1px solid #ccc;
+
+        .button-group a {
+            text-decoration: none;
+            padding: 5px 10px;
             border-radius: 4px;
-            display: inline-block;
-            padding: 6px 20px;
-            margin: 8px 0;
-        }
-        button[type="submit"] {
-            padding: 6px 20px;
-            margin: 8px 0;
         }
     </style>
-    <div>
+    <div class="header-container">
        <a class="btn btn-sm btn-success" href="{% url 'category-create' %}">Añadir Categoria</a> 
-        <a class="float-end btn btn-sm btn-success" href="{% querystring '_export'='xlsx' %}">
+       <h2 class="title">Categoria</h2>
+       <a class="float-end btn btn-sm btn-success" href="{% querystring '_export'='xlsx' %}">
             <i class="fa-solid fa-download"></i>
             Export to Excel
         </a>
     </div>
-    <div class="m-2">
-        <table class="table table-sm table-responsive">
-            <thead class="thead-dark">
-                <tr class="table-success">
-                    <th scope="col"><a href="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}" style="color: #fcfcfd;">ID <i class="fa-solid fa-sort"></i></a></th>
-                    <th scope="col" style="color: #fcfcfd;">Categoria <i class="fa-solid fa-sort"></i></th>
-                    <th scope="col"> <i class="fa-solid fa-sort"></i></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for category in categories %}
-                <tr>
-                    <th scope="row"><a> {{ category.id }}</a></th>
-                    <td>{{ category.name }}</td>
-                    <td>
-                        <div class="button-group">
-                            <!-- Solo muestra enlaces si hay un ID de entrega válido -->
-                            <a class="text-info" href="{% url 'category-update' pk=category.pk %}"><i class="fa-solid fa-pen"></i></a>
-                            <a class="text-danger float-end" href="{% url 'category-delete' pk=category.pk %}"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <div class="table-container" >
+        <div class="mt-6 m-4" >
+            <table class="table table-sm table-responsive border border-secondary">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"><a href="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}" style="color: #fcfcfd;">ID</a></th>
+                        <th scope="col" style="color: #fcfcfd;">Categoria</th>
+                        <th scope="col"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <th scope="row"><a> {{ category.id }}</a></th>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <div class="button-group">
+                                <!-- Solo muestra enlaces si hay un ID de entrega válido -->
+                                <a class="text-info" href="{% url 'category-update' pk=category.pk %}"><i class="fa-solid fa-pen"></i></a>
+                                <a class="text-danger float-end" href="{% url 'category-delete' pk=category.pk %}"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="paginator">
         {% if is_paginated %}

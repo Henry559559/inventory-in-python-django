@@ -25,7 +25,7 @@
         }
     </style>
     <div>
-       <!-- <a class="btn btn-sm btn-success" href="{% url 'vendor-create' %}">Añadir Categoria</a>  -->
+        <a class="btn btn-sm btn-success" href="{% url 'vendor-create' %}">Añadir Proveedores</a>
         <a class="float-end btn btn-sm btn-success" href="{% querystring '_export'='xlsx' %}">
             <i class="fa-solid fa-download"></i>
             Export to Excel
@@ -52,8 +52,8 @@
                     <td>
                         <div class="button-group">
                             <!-- Solo muestra enlaces si hay un ID de entrega válido -->
-                            <!-- <a class="text-info" href="{% url 'vendor-update' pk=vendor.pk %}"><i class="fa-solid fa-pen"></i></a>
-                            <a class="text-danger float-end" href="{% url 'vendor-delete' pk=vendor.pk %}"><i class="fa-solid fa-trash"></i></a> -->
+                            <a class="text-info" href="{% url 'vendor-update' pk=vendor.pk %}"><i class="fa-solid fa-pen"></i></a>
+                            <a class="text-danger float-end" href="{% url 'vendor-delete' pk=vendor.pk %}"><i class="fa-solid fa-trash"></i></a>
                         </div>
                     </td>
                 </tr>
